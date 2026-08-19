@@ -2,14 +2,36 @@
 #include <iostream>
 #include "lexer.hpp"
 
-int main(){
-    Lexer lx("7");
-    std::vector<Token> tokens = lx.tokenize();
-    
-    assert(tokens.size() == 2);
-    assert(tokens[1].type == TokenType::End);
-    assert(tokens[0].type == TokenType::Number);
-    std::cout << "ok\n";
+int main() {
+    {   // empty input -> just End
+        Lexer lx("");
+        auto t = lx.tokenize();
+        assert(t.size() == 1);
+        assert(t[0].type == TokenType::End);
+    }
+    {   // single digit
+        Lexer lx("7");
+        auto t = lx.tokenize();
+        assert(t.size() == 2);
+        assert(t[0].type == TokenType::Number);
+        assert(t[0].text == "7");
+    }
+    {   // multi-digit batching
+        Lexer lx("42");
+        auto t = lx.tokenize();
+        assert(t.size() == 2);
+        assert(t[0].type == TokenType::Number);
+        assert(t[0].text == "42");
+    }
+    {   // two numbers, whitespace between
+        Lexer lx("1 2");
+        auto t = lx.tokenize();
+        assert(t.size() == 3);
+        assert(t[0].text == "1");
+        assert(t[1].text == "2");
+        assert(t[2].type == TokenType::End);
+    }
+    std::cout << "all 4 ok\n";
 }
 
 

@@ -12,8 +12,11 @@ std::vector<Token> Lexer::tokenize(){
         if(c == ' ') {pos_++; continue;}
         else if(c == '\n') {pos_++; line_++; continue;}
         else if(std::isdigit(c)) {
-            tokens.push_back(Token{TokenType::Number, std::string(1, c), line_});
-            pos_++;
+            int start = pos_;
+            while(pos_ < src_.size() && std::isdigit(src_[pos_])) {
+                pos_++;
+            };
+            tokens.push_back(Token{TokenType::Number, src_.substr(start, pos_-start), line_});
         }
 
 
