@@ -31,7 +31,16 @@ int main() {
         assert(t[1].text == "2");
         assert(t[2].type == TokenType::End);
     }
-    std::cout << "all 4 ok\n";
+    {   // two numbers, whitespace between
+        Lexer lx("12+34");
+        auto t = lx.tokenize();
+        assert(t.size() == 4);
+        assert(t[0].text == "12");
+        assert(t[1].text == "+");
+        assert(t[2].text == "34");
+        assert(t[3].type == TokenType::End);
+    }
+    std::cout << "all 5 ok\n";
 }
 
 
