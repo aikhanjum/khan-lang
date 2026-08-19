@@ -40,7 +40,18 @@ int main() {
         assert(t[2].text == "34");
         assert(t[3].type == TokenType::End);
     }
-    std::cout << "all 5 ok\n";
+    {   // full statement: let x = 5;
+    Lexer lx("let x = 5;");
+    auto t = lx.tokenize();
+    assert(t.size() == 6);
+    assert(t[0].type == TokenType::Let        && t[0].text == "let");
+    assert(t[1].type == TokenType::Identifier && t[1].text == "x");
+    assert(t[2].type == TokenType::Equals     && t[2].text == "=");
+    assert(t[3].type == TokenType::Number     && t[3].text == "5");
+    assert(t[4].type == TokenType::Semicolon  && t[4].text == ";");
+    assert(t[5].type == TokenType::End);
+    }
+    std::cout << "all 6 ok\n";
 }
 
 

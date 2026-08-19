@@ -20,6 +20,16 @@ std::vector<Token> Lexer::tokenize(){
             }
             tokens.push_back(Token{TokenType::Number, src_.substr(start, pos_-start), line_});
         }
+        else if(std::isalpha(c)){
+            int start = pos_;
+            while(pos_ < src_.size() && std::isalpha(src_[pos_])) {
+                pos_++;
+            }
+            std::string identifer = src_.substr(start, pos_-start);
+            if(identifer == "let") {tokens.push_back(Token{TokenType::Let,      "let", line_});}
+            else if(identifer == "print") {tokens.push_back(Token{TokenType::Print,      "print", line_});}
+            else tokens.push_back(Token{TokenType::Identifier,      identifer, line_});
+        }
         else {
         switch (c) {
         case '+': tokens.push_back(Token{TokenType::Plus,      "+", line_}); pos_++; break;
